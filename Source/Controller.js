@@ -27,6 +27,16 @@ export const getUserByNpm = async (req, res) => {
 // menambahkan User baru
 export const createUser = async (req, res) => {
   try {
+    // cek apakah User sudah ada
+    const checkUser = await User.findOne({
+      where: {
+        UserName: req.body.UserName,
+      },
+    });
+    if (req.body.UserName === checkUser.UserName) {
+      return res.json({ message: "User already exists" });
+    }
+
     await User.create(req.body);
     res.json({ data: req.body, message: "User Created" });
   } catch (error) {
@@ -44,6 +54,7 @@ export const updateUser = async (req, res) => {
         npm: npm,
       },
     });
+
     res.json({ data: req.body, message: "User Updated" });
   } catch (error) {
     res.json({ message: "An error occurred", error: error.message });
