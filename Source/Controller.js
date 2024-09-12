@@ -15,6 +15,11 @@ export const getUserByNpm = async (req, res) => {
   try {
     const npm = parseInt(req.params.Npm);
     const response = await User.findByPk(npm);
+
+    if (!response) {
+      return res.json({ message: "User not available" });
+    }
+
     res.json({
       data: response,
       message: "Success get user",
@@ -33,7 +38,8 @@ export const createUser = async (req, res) => {
         UserName: req.body.UserName,
       },
     });
-    if (req.body.UserName === checkUser.UserName) {
+
+    if (checkUser) {
       return res.json({ message: "User already exists" });
     }
 
@@ -48,6 +54,15 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const npm = parseInt(req.params.Npm);
+    const checkUser = await User.findOne({
+      where: {
+        UserName: req.body.UserName,
+      },
+    });
+
+    if (checkUser) {
+      return res.json({ message: "User already exists" });
+    }
 
     await User.update(req.body, {
       where: {
@@ -65,6 +80,18 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     const npm = parseInt(req.params.Npm);
+
+    // cek apakah User ada
+    const checkUser = await User.findOne({
+      where: {
+        Npm: npm,
+      },
+    });
+
+    if (!checkUser) {
+      return res.json({ message: "User not available" });
+    }
+
     await User.destroy({
       where: {
         npm: npm,
