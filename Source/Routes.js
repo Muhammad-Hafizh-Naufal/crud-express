@@ -1,3 +1,5 @@
+// rute endpoint
+
 import express from "express";
 import {
   getAllUsers,

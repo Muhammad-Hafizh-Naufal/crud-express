@@ -1,3 +1,5 @@
+// untuk memodelkan tabel ke database
+
 import { Sequelize } from "sequelize";
 import db from "./Database.js";
 

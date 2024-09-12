@@ -1,3 +1,4 @@
+// untuk menyelesaikan tugas sesuai dengan fungsi yang dibutuhkan
 import User from "../Database/Models.js";
 
 // menampilkan seluruh User
